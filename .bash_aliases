@@ -1,0 +1,1 @@
+alias actualizar='~/actualizar.sh'
