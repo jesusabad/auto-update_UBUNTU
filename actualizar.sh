@@ -21,7 +21,7 @@ printf "${yellow}KERNEL actualizado.${nc}\n\n"
 
 #REPARACIONES
 printf "${yellow}Busqueda y reparación de paquetes rotos${nc}\n"
-sudo apt install -f
+sudo apt install -f -y
 printf "${yellow}Reparaciones terminadas${nc}\n\n"
 
 #LIMPIEZA
