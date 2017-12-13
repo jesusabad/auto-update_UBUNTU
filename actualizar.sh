@@ -22,6 +22,7 @@ printf "${yellow}KERNEL actualizado.${nc}\n\n"
 #REPARACIONES
 printf "${yellow}Busqueda y reparación de paquetes rotos${nc}\n"
 sudo apt install -f -y
+sudo dpkg --configure -a
 printf "${yellow}Reparaciones terminadas${nc}\n\n"
 
 #LIMPIEZA
