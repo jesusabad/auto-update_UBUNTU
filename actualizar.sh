@@ -10,7 +10,7 @@ printf "${yellow}Actualizando repositorios...${nc}\n"
 sudo apt update
 if [ $? = 0 ]; then
 	printf "${yellow}Repositorios actualizados.${nc}\n\n";
-	else printf "${red}Error${nc}\n" &&	exit;
+	else printf "${red}Error. Inténtalo más tarde.${nc}\n" && exit;
 fi
 
 #PAQUETES
@@ -18,7 +18,7 @@ printf "${yellow}Actualizando paquetes...${nc}\n"
 sudo apt upgrade -y
 if [ $? = 0 ]; then
 	printf "${yellow}Paquetes actualizados.${nc}\n\n";
-	else printf "${red}Error${nc}\n" &&	exit;
+	else printf "${red}Error. Inténtalo más tarde${nc}\n" && exit;
 fi
 
 #KERNEL
@@ -26,7 +26,7 @@ printf "${yellow}Comprobando grandes actualizaciones${nc}\n"
 sudo apt full-upgrade -y
 if [ $? = 0 ]; then
 	printf "${yellow}Grandes actualizaciones comprobadas${nc}\n\n";
-	else printf "${red}Error${nc}\n" &&	exit;
+	else printf "${red}Error${nc}\n" && exit;
 fi
 
 #REPARACIONES
@@ -35,7 +35,7 @@ sudo apt install -f -y
 sudo dpkg --configure -a
 if [ $? = 0 ]; then
 	printf "${yellow}Paquetes rotos comprobados${nc}\n\n";
-	else printf "${red}Error${nc}\n" &&	exit;
+	else printf "${red}Error${nc}\n" && exit;
 fi
 
 #LIMPIEZA
@@ -45,5 +45,5 @@ sudo apt autoremove -y
 sudo apt clean
 if [ $? = 0 ]; then
 	printf "${yellow}Limpieza terminada${nc}\n\n" && exit;
-	else printf "${red}Error${nc}\n" &&	exit;
+	else printf "${red}Error${nc}\n" && exit;
 fi
