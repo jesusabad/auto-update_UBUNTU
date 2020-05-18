@@ -6,7 +6,7 @@ Son dos scripts muy parecidos que actualizan el sistema, reparan errores comunes
 
 El primero de ellos es _actualizar.sh_ (con R) que sería el que realmente necesito y uso, que te pide la contraseña cuando lo lanzas y anteriormente se accedía mediante alias.
 
-El otro es _actualiza.sh_ sin R que sería el más profesional, que se mete en `</usr/bin>` y se llama desde cualquier usuario y sobre todo necesita ser llamado con permisos de administrador.
+El otro es _actualiza.sh_ (sin R) que sería el más profesional, que se mete en `</usr/bin>` y se llama desde cualquier usuario y sobre todo necesita ser llamado con permisos de administrador.
 
 ## Instalación
 
