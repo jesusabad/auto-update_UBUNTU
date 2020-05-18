@@ -15,6 +15,14 @@ fun_checkLastCommand (){
 	fi
 }
 
+# COMPRUEBA LA INSTALACIÓN DEL SCRIPT
+if [ ! -e "/usr/bin/actualizar" ]; then
+        printf "${col_yellow}No existe el enlace simbólico, así que lo creo.${nc}\n"
+        var_error='Error creando el enlace simbólico. "¿Has usado sudo?"'
+        ln -s $PWD/actualizar.sh /usr/bin/actualizar
+        fun_checkLastCommand
+fi
+
 #REPOSITORIOS
 printf "${col_yellow}Actualizando repositorios...${nc}\n"
 var_correcto="Repositorios actualizados."
@@ -49,5 +57,3 @@ sudo apt clean
 fun_checkLastCommand
 
 exit 0
-
-
