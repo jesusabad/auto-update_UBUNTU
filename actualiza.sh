@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# Versión 2.0
 # VARIABLES Y FORMATOS
 var_correcto=''
 var_error='Error. Inténtalo más tarde.'
