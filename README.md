@@ -36,7 +36,7 @@ actualiza
 
 ## Errores conocidos
 
-Al hacer el enlace con el script, se realiza con el comando `<ln -s>` en lugar de `<ln -f>` porque en el ordenador del desarrollador principal con el enlace fuerte daba error (sin una explicación clara).
+Al hacer el enlace con el script, se realiza con el comando `ln -s` en lugar de `ln -f` porque en el ordenador del desarrollador principal con el enlace fuerte daba error (sin una explicación clara).
 
 ## About actualizar.sh / actualiza.sh
 
