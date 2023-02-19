@@ -32,7 +32,9 @@ fun_checkLastCommand
 #PAQUETES
 printf "${col_yellow}Actualizando paquetes...${nc}\n"
 var_correcto="Paquetes actualizados."
-sudo apt upgrade -y
+sudo apt upgrade -y &&
+sudo flatpak update -y &&
+sudo snap refresh
 fun_checkLastCommand
 
 #KERNEL
@@ -53,7 +55,8 @@ printf "${col_yellow}Limpiando el sistema...${nc}\n"
 var_correcto="Limpieza terminada\n\nSistema actualizado y limpio"
 sudo apt autoclean &&
 sudo apt autoremove -y &&
-sudo apt clean
+sudo apt clean &&
+sudo flatpak uninstall --unused
 fun_checkLastCommand
 
 exit 0
