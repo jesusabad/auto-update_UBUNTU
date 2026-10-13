@@ -1,5 +1,5 @@
-#!/bin/sh
-# Versión 2.0
+#!/bin/bash
+# Versión 2.1
 # VARIABLES Y FORMATOS
 var_correcto=''
 var_error='Error. Inténtalo más tarde.'
@@ -9,54 +9,66 @@ nc='\033[0m'
 
 # FUNCIONES
 fun_checkLastCommand (){
-	if [ $? -eq 0 ]; then 
-		printf "${col_yellow}$var_correcto${nc}\n\n";
-		else printf "${col_red}\n$var_error\n\n" && exit 1;
-	fi
+    if [ $? -eq 0 ]; then
+        printf "${col_yellow}$var_correcto${nc}\n"
+    else
+        printf "${col_red}\n$var_error\n" && exit 1
+    fi
 }
 
 # COMPRUEBA LA INSTALACIÓN DEL SCRIPT
-if [ ! -e "/usr/bin/actualizar" ]; then
-        printf "${col_yellow}No existe el enlace simbólico, así que lo creo.${nc}\n"
-        var_error='Error creando el enlace simbólico. "¿Has usado sudo?"'
-        ln -s $PWD/actualizar.sh /usr/bin/actualizar
-        fun_checkLastCommand
+if [ ! -e "/usr/local/bin/actualizar" ]; then
+    printf "${col_yellow}No existe el enlace simbólico, así que lo creo.${nc}\n"
+    var_error='Error creando el enlace simbólico. "¿Has usado sudo?"'
+    sudo ln -s "$PWD/actualizar.sh" /usr/local/bin/actualizar
+    fun_checkLastCommand
 fi
 
-#REPOSITORIOS
+# REPARACIONES (antes de actualizar)
+printf "${col_yellow}Comprobando paquetes rotos...${nc}\n"
+sudo dpkg --configure -a && sudo apt install -f -y
+var_correcto="Reparación de paquetes completada."
+fun_checkLastCommand
+
+# REPOSITORIOS
 printf "${col_yellow}Actualizando repositorios...${nc}\n"
-var_correcto="Repositorios actualizados."
 sudo apt update
+var_correcto="Repositorios actualizados."
 fun_checkLastCommand
 
-#PAQUETES
+# PAQUETES
 printf "${col_yellow}Actualizando paquetes...${nc}\n"
-var_correcto="Paquetes actualizados."
-sudo apt upgrade -y &&
-sudo flatpak update -y &&
-sudo snap refresh
-fun_checkLastCommand
-
-#KERNEL
-printf "${col_yellow}Comprobando actualización del kernel...${nc}\n"
-var_correcto="Actualización del kernel comprobada."
 sudo apt full-upgrade -y
+var_correcto="Paquetes del sistema actualizados."
 fun_checkLastCommand
 
-#REPARACIONES
-printf "${col_yellow}Comprobando paquetes rotos${nc}\n"
-var_correcto="Paquetes rotos comprobados."
-sudo apt install -f -y &&
-sudo dpkg --configure -a
-fun_checkLastCommand
+# FLATPAK (si está instalado)
+if command -v flatpak &> /dev/null; then
+    printf "${col_yellow}Actualizando Flatpak...${nc}\n"
+    sudo flatpak update -y
+    var_correcto="Flatpak actualizado."
+    fun_checkLastCommand
+fi
 
-#LIMPIEZA
+# SNAP (si está instalado)
+if command -v snap &> /dev/null; then
+    printf "${col_yellow}Actualizando Snap...${nc}\n"
+    sudo snap refresh
+    var_correcto="Snap actualizado."
+    fun_checkLastCommand
+fi
+
+# LIMPIEZA
 printf "${col_yellow}Limpiando el sistema...${nc}\n"
-var_correcto="Limpieza terminada\n\nSistema actualizado y limpio"
-sudo apt autoclean &&
-sudo apt autoremove -y &&
-sudo apt clean &&
-sudo flatpak uninstall --unused
+sudo apt autoclean -y && sudo apt autoremove -y && sudo apt clean -y
+var_correcto="Limpieza de paquetes APT completada."
 fun_checkLastCommand
 
+if command -v flatpak &> /dev/null; then
+    flatpak uninstall --unused -y
+    var_correcto="Limpieza de paquetes Flatpak completada."
+    fun_checkLastCommand
+fi
+
+printf "${col_yellow}Sistema actualizado y limpio.${nc}\n"
 exit 0
